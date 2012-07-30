@@ -5,4 +5,5 @@
 	       :defun-star)
   (:use :common-lisp)
   (:export :defun*
-	   :flet*))
+	   :flet*
+	   :labels*))

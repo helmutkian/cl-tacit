@@ -20,6 +20,11 @@
   (with-gensyms (args)
     `(,@(append* name doc-str) (&rest ,args) (apply ,expr ,args))))
 
+(defun make-lexical-form (form)
+  (if (> length form 2)
+      form
+      (apply #'make-fun-form form)))
+
 (defmacro defun* (name &rest body)
   `(defun 
        ,@(multiple-value-call 
@@ -30,12 +35,12 @@
 	      (values (car body))))))
 
 (defmacro flet* (forms &body body)
-  `(flet ,@(mapcar (lambda (form)
-		    (if (> (length form) 2)
-			form
-			(apply #'make-fun-form form)))
-		  forms)
+  `(flet ,@(mapcar #'make-lexical-form forms)
     ,@body))
+
+(defmacro labels* (forms &body body)
+  `(labels ,@(mapcar #'make-lexical-form forms)
+     ,@body))
 
 (defvar test
   '(flet* ((foo (x) (1+ x))

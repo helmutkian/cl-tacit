@@ -31,7 +31,7 @@ _expression_ - Point-free or lambda expression.
 ## FLET*
 
 
-FLET* allows for defining functions in the lexical environment using lambdas or closure-returning functions, much like LET in Scheme.
+FLET* allows for defining functions in the lexical environment using lambdas or closure-returning functions, much like LET or inner DEFINE in Scheme.
 
 In addition, FLET* allows you to mix the usual lambda-list style function definitions with point-free ones.
 
@@ -49,26 +49,3 @@ _expression_ - Point-free or lambda expression
         (average (nums) (/ (sum nums) (length nums))))
   (not-eql (average some-arbitrary-values) 22))
 ````
-
-## LABELS*
-
-LABELS* allows for defining functions in the lexical environment using lambdas or closure-returning functions. LABELS* evaluates its bindings sequentially allow for recursive or sequential definitions much like LETREC or inner DEFINE in Scheme.
-
-In addition, LABELS* allows you to mix the usual lambda-list style function definitions with point-free ones.
-
-### Syntax
-
-**LABELS* ** ([(_name_ _expression_) | (_name_ _args_ _function-body_])  ...) _body_
-
-_name_ - Name of the function
-_expression_ - Point-free or lambda expression
-
-### Example
-
-(labels* ((prod (curry #'reduce #'*))
-	  (factorial (n) (prod (loop for i from 1 to n (collect i)))))
-  (factorial 22))	  
-
-### Note
-
-This library current does not provide common point-free operators such as CURRY or COMPOSE.
