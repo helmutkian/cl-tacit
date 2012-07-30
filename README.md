@@ -1,4 +1,3 @@
-
 # DEFUN*
 
 ## Description
@@ -15,8 +14,11 @@ DEFUN* allows for defining functions at the top-level using lambdas or closure-r
 **DEFUN* ** _name_ [[_doc-string_]] _expression_
 
 _name_ - Name of the function.
+
 _doc-string_ - Optional documentation string.
+
 _expression_ - Point-free or lambda expression.
+
 ### Example
 
 ````
@@ -40,6 +42,7 @@ In addition, FLET* allows you to mix the usual lambda-list style function defini
 **FLET* ** ([(_name_ _expression_) | (_name_ _args_ _function-body_])  ...) _body_
 
 _name_ - Name of the function
+
 _expression_ - Point-free or lambda expression
 
 ### Example
