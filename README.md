@@ -67,10 +67,11 @@ _name_ - Name of the function
 _expression_ - Point-free or lambda expression
 
 ### Example
-
+````
 (labels* ((prod (curry #'reduce #'*))
 	  (factorial (n) (prod (loop for i from 1 to n (collect i)))))
-  (factorial 22))	  
+  (factorial 22))
+````
 
 ### Note
 
