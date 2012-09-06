@@ -1,48 +1,28 @@
+(in-package :helmutkian.defun-star)
 
-(in-package :com.helmutkian.defun-star)
+(defun make-function-form (name body)
+  (multiple-value-bind (fn declarations docstring) 
+      (tcr.parse-declarations-1.0::parse-body body)
+    (let ((args (gensym)))
+     (remove nil
+	     `(,name (&rest ,args)
+	        ,@declarations
+		,@docstring
+		(apply ,@fn ,args))))))
 
-(defmacro with-gensyms (names &body body)
-  `(let ,(loop for name in names
-	       collect `(,name (gensym)))
+(defmacro defun* (function-name &body body)
+  `(defun ,@(make-function-form function-name body)))
+
+(defmacro flet* (function-forms &body body)
+  `(flet ,(loop for (name . fn-body) in function-forms
+		 collect (make-function-form name fn-body))
      ,@body))
 
-(defun append* (&rest things)
-  (reduce (lambda (thing list)
-	    (append (if (listp thing)
-			thing
-			(list thing))
-		    list))
-	  things
-	  :initial-value nil
-	  :from-end t))
-
-(defun make-fun-form (name expr &key doc-string)
-  (with-gensyms (args)
-    `(,@(append* name doc-str) (&rest ,args) (apply ,expr ,args))))
-
-(defun make-lexical-form (form)
-  (if (> length form 2)
-      form
-      (apply #'make-fun-form form)))
-
-(defmacro defun* (name &rest body)
-  `(defun 
-       ,@(multiple-value-call 
-	  #'make-fun-form
-	  name
-	  (if (stringp (car body))
-	      (values (second body) :doc-string (first body))
-	      (values (car body))))))
-
-(defmacro flet* (forms &body body)
-  `(flet ,@(mapcar #'make-lexical-form forms)
-    ,@body))
-
-(defmacro labels* (forms &body body)
-  `(labels ,@(mapcar #'make-lexical-form forms)
+(defmacro labels* (function-forms &body body)
+  `(labels ,(loop for (name . fn-body) in function-forms
+		 collect (make-function-form name fn-body))
      ,@body))
 
-(defvar test
-  '(flet* ((foo (x) (1+ x))
-	   (bar (compose #'1+ #'sum)))
-    (foo (bar '(1 2 3)))))
+(defun compose (&rest functions)
+  (flet ((compose2 (f g) (lambda (&rest args) (funcall f (apply g args)))))
+    (reduce #'compose2 functions)))
