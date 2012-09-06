@@ -11,7 +11,7 @@ DEFUN* allows for defining functions at the top-level using lambdas or closure-r
 
 ### Syntax
 
-**DEFUN* ** _name_ [[_doc-string_]] _expression_
+**DEFUN*** _name_ [[_doc-string_]] _expression_
 
 _name_ - Name of the function.
 
@@ -39,7 +39,7 @@ In addition, FLET* allows you to mix the usual lambda-list style function defini
 
 ### Syntax
 
-**FLET* ** ([(_name_ _expression_) | (_name_ _args_ _function-body_])  ...) _body_
+**FLET*** ([(_name_ _expression_) | (_name_ _args_ _function-body_])  ...) _body_
 
 _name_ - Name of the function
 
@@ -61,16 +61,18 @@ In addition, LABELS* allows you to mix the usual lambda-list style function defi
 
 ### Syntax
 
-**LABELS* ** ([(_name_ _expression_) | (_name_ _args_ _function-body_])  ...) _body_
+**LABELS*** ([(_name_ _expression_) | (_name_ _args_ _function-body_])  ...) _body_
 
 _name_ - Name of the function
+
 _expression_ - Point-free or lambda expression
 
 ### Example
-
+````
 (labels* ((prod (curry #'reduce #'*))
-	  (factorial (n) (prod (loop for i from 1 to n (collect i)))))
-  (factorial 22))	  
+          (factorial (n) (prod (loop for i from 1 to n (collect i)))))
+  (factorial 22))
+````
 
 ### Note
 
