@@ -1,8 +1,8 @@
-# DEFUN*
+# cl-tacit
 
 ## Description
 
-DEFUN* is a utility that allows for the point-free definition of functions either at the top-level or locally.
+**cl-tacit** is a utility that allows for the point-free definition of functions either at the top-level or locally.
 
 
 ## DEFUN*
@@ -11,22 +11,22 @@ DEFUN* allows for defining functions at the top-level using lambdas or closure-r
 
 ### Syntax
 
-**DEFUN*** _name_ [[_doc-string_]] _expression_
+**DEFUN*** *name* [[*doc-string*]] *expression*
 
-_name_ - Name of the function.
+*name* - Name of the function.
 
-_doc-string_ - Optional documentation string.
+*doc-string* - Optional documentation string.
 
-_expression_ - Point-free or lambda expression.
+*expression* - Point-free or lambda expression.
 
 ### Example
 
-````
+````lisp
 (defun* add-1-and-sum
   (compose #'sum (curry #'mapcar #'1+)))
 
-> (add-1-and-sum '(1 2 3))
-> 9
+(add-1-and-sum '(1 2 3))
+=> 9
 
 ````
 
@@ -35,45 +35,41 @@ _expression_ - Point-free or lambda expression.
 
 FLET* allows for defining functions in the lexical environment using lambdas or closure-returning functions, much like LET in Scheme.
 
-In addition, FLET* allows you to mix the usual lambda-list style function definitions with point-free ones.
-
 ### Syntax
 
-**FLET*** ([(_name_ _expression_) | (_name_ _args_ _function-body_])  ...) _body_
+**FLET*** ((*name* *expression*)*) *body*
 
-_name_ - Name of the function
+*name* - Name of the function
 
-_expression_ - Point-free or lambda expression
+*expression* - Point-free or lambda expression
+
 
 ### Example
 
-````
-(flet* ((not-eql (compose #'not #'eql))
-        (average (nums) (/ (sum nums) (length nums))))
-  (not-eql (average some-arbitrary-values) 22))
+````lisp
+(flet* ((not-eql (complement #'eql)))
+  (not-eql 11 22))
+  
+=> T
 ````
 
 ## LABELS*
 
 LABELS* allows for defining functions in the lexical environment using lambdas or closure-returning functions. LABELS* evaluates its bindings sequentially allow for recursive or sequential definitions much like LETREC or inner DEFINE in Scheme.
 
-In addition, LABELS* allows you to mix the usual lambda-list style function definitions with point-free ones.
-
 ### Syntax
 
-**LABELS*** ([(_name_ _expression_) | (_name_ _args_ _function-body_])  ...) _body_
+**LABELS*** ((*name* *expression*)*) *body*
 
-_name_ - Name of the function
+*name* - Name of the function
 
-_expression_ - Point-free or lambda expression
+*expression* - Point-free or lambda expression
 
 ### Example
-````
+````lisp
 (labels* ((prod (curry #'reduce #'*))
-          (factorial (n) (prod (loop for i from 1 to n (collect i)))))
-  (factorial 22))
+          (prod-plus-one (compose #'1+ #'prod)))
+  (prod-plus-one '(1 2 3)))
+  
+=> 7
 ````
-
-### Note
-
-This library current does not provide common point-free operators such as CURRY or COMPOSE.
