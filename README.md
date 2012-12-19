@@ -11,11 +11,13 @@ DEFUN* allows for defining functions at the top-level using lambdas or closure-r
 
 ### Syntax
 
-**DEFUN*** *name* [[*doc-string*]] *expression*
+**DEFUN*** *name* [[ *doc-string* ] | [ *declarations* ]] *expression*
 
 *name* - Name of the function.
 
 *doc-string* - Optional documentation string.
+
+*declarations* - Optional declaration directives.
 
 *expression* - Point-free or lambda expression.
 
@@ -37,9 +39,13 @@ FLET* allows for defining functions in the lexical environment using lambdas or 
 
 ### Syntax
 
-**FLET*** ((*name* *expression*)*) *body*
+**FLET*** ((*name* [[ *doc-string* ] | [ *declarations* ]] *expression*)*) *body*
 
 *name* - Name of the function
+
+*doc-string* - Optional documentation string.
+
+*declarations* - Optional declaration directives.
 
 *expression* - Point-free or lambda expression
 
@@ -59,9 +65,13 @@ LABELS* allows for defining functions in the lexical environment using lambdas o
 
 ### Syntax
 
-**LABELS*** ((*name* *expression*)*) *body*
+**LABELS*** ((*name* [[ *doc-string* ] | [ *declarations* ]]  *expression*)*) *body*
 
 *name* - Name of the function
+
+*doc-string* - Optional documentation string.
+
+*declarations* - Optional declaration directives.
 
 *expression* - Point-free or lambda expression
 
