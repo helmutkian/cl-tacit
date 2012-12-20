@@ -1,7 +1,7 @@
 
 (defpackage #:com.helmutkian.cl-tacit
-  (:nick-names #:tacit)
+  (:nicknames #:tacit)
   (:use #:common-lisp)
-  (:export #:deftacit*
+  (:export #:deftacit
 	   #:tacit-let
 	   #:tacit-let*))
